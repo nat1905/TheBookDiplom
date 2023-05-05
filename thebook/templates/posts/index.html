@@ -1,0 +1,31 @@
+<!-- templates/posts/group_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{{ content }}
+
+{% for post in page_obj %}
+{% include 'includes/author_date_post.html' %}  
+
+  {% if post.group %}   
+    <a href="{% url 'posts:group_list' post.group.slug %}">
+      #{{ post.group.title }}
+    </a>
+  {% endif %}
+
+  {% if post.book %}   
+    <a href="{% url 'posts:book_list' post.book.pk %}">
+      #{{ post.book.author_book }} {{ post.book.title }}
+    </a>
+  {% endif %}
+
+  <p>
+    <a href="{% url 'posts:post_detail' post.pk %}">
+      Post details
+    </a>
+  </p>
+{% if not forloop.last %}<hr>{% endif %}
+{% endfor %}
+{% include 'includes/paginator.html' %}
+{% endblock %} 

@@ -1,0 +1,56 @@
+{% load static %}
+<nav class="navbar navbar-light" style="background-color: #fae1dd">
+<div class="container">
+    <a class="navbar-brand" href="{% url 'posts:index' %}">
+    <img src="{% static 'img/logo.png' %}" width="90" height="90" class="d-inline-block align-top" alt="">
+    <span style="color:#6b705c">TheBook</span>
+    </a>
+</div>
+{% with request.resolver_match.view_name as view_name %}      
+      <ul class="nav nav-pills">
+        
+
+        {% if request.user.is_authenticated %}
+        
+        <li class="nav-item" > 
+          <a class="nav-link" style="color:#4a7c59" href="{% url 'posts:post_create' %}">New post</a>
+        </li>
+
+        <li class="nav-item"> 
+          <a class="nav-link" style="color:#4a7c59" href="{% url 'posts:book_create' %}">New book</a>
+        </li>
+
+        <li class="nav-item"> 
+          <a class="nav-link" style="color:#4a7c59" href="{% url 'posts:books' %}">All books</a>
+        </li>
+        
+        <li class="nav-item"> 
+          <a class="nav-link link-light 
+          {% if view_name  == 'users:logout' %}
+        active
+        {% endif %}"
+          href="{% url 'users:logout' %}">Log out</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" style="color:#4a7c59" href="{% url 'posts:profile'  user.username %}">User: {{ user.username }}</a>
+        </li>
+        {% else %}
+        <li class="nav-item"> 
+          <a class="nav-link link-light
+          {% if view_name  == 'users:login' %}
+          active
+        {% endif %}"
+          href="{% url 'users:login' %}">Log in</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light
+          {% if view_name  == 'users:signup' %}
+        active
+         {% endif %}"
+          href="{% url 'users:signup' %}">Sign up</a>
+        </li>
+        {% endif %}
+        {% endwith %}
+      </ul>      
+</nav>   

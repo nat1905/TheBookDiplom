@@ -1,0 +1,27 @@
+<!-- templates/posts/group_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{{ content }}
+<a href="{% url 'posts:index'%}">
+    # Return to main page 
+</a>
+<!-- group name -->
+<h3>Title: {{ group.title }}.</h3>
+<h3>Group description:</h3>
+<p>
+    <h5>
+    {{ group.description }}
+    </h5>
+</p>
+        
+{% for post in page_obj %}
+{% include 'includes/author_date_post.html' %} 
+<a href="{% url 'posts:post_detail' post.pk %}">Post's details</a>               
+<p><a href="{% url 'posts:group_list' post.group.slug %}">All group's posts </a></p>
+    
+{% if not forloop.last %}<hr>{% endif %}
+{% endfor %}
+{% include 'includes/paginator.html' %}
+{% endblock %}  

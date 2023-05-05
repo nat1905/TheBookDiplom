@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{{ content }}
+
+<h3>Title:{{ book.title }}.</h3>
+<h3>Author:{{ book.author_book }}.</h3>
+
+{% thumbnail book.image_book "140x140" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<h3>Book description:</h3>
+<p>
+    <h5>
+    {{ book.description }}
+    </h5>
+</p>
+        
+<a href="{% url 'posts:book_edit' book.id %}">
+    <button class="btn btn-primary">
+    Correct the book
+    </button>
+</a>
+
+<hr>
+        
+{% for post in page_obj  %}
+{% thumbnail post.image "140x140" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+{% include 'includes/author_date_post.html' %} 
+{% if not forloop.last %}<hr>{% endif %}
+{% endfor %}
+{% include 'includes/paginator.html' %}
+{% endblock %} 
