@@ -1,4 +1,4 @@
-"""Views for auth users.
+"""Views for users auth.
 """
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
