@@ -1,4 +1,4 @@
-"""Forms for app Post.
+"""Forms for app Post: PostForm, BookForm, CommentForm.
 """
 from django import forms
 

@@ -1,4 +1,5 @@
-"""Models for database: Group, Post.
+"""Models jf app posts for database:
+Group, Book, Post and Comment.
 """
 from django.contrib.auth import get_user_model
 from django.db import models

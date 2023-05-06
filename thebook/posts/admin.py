@@ -1,5 +1,5 @@
 """Admin part for app posts.
-There are 2 classes Group and Post.
+There Group, Book, Post and Comment.
 """
 from django.contrib import admin
 
