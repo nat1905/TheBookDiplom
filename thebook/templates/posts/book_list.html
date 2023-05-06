@@ -13,11 +13,11 @@
 {% endthumbnail %}
 
 <h3>Book description:</h3>
-<p>
-    <h5>
-    {{ book.description }}
-    </h5>
-</p>
+    <p>
+        <h5>
+        {{ book.description }}
+        </h5>
+    </p>
         
 <a href="{% url 'posts:book_edit' book.id %}">
     <button class="btn btn-primary">

@@ -1,17 +1,7 @@
 default_stages: [commit]
 default_language_version:
   python: python3.10.9
-repos:
-  - repo: https://github.com/psf/black
-    rev: 21.8b0
-    hooks:
-    - id: black
-      args: [
-        --line-length=79, 
-        --target-version=py310
-      ]
-      exclude: ^(venv/|docs/)
-      types: ['python']
+repos:  
   - repo: https://github.com/PyCQA/flake8
     rev: 3.8.2
     hooks:
@@ -21,6 +11,5 @@ repos:
       ]
       ignore: W503
       exclude: ^(venv/|docs/)
-      # per-file-ignores: */settings.py:E501
       types: ['python']
       max-complexity: 10

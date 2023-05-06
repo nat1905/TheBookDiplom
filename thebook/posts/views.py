@@ -27,7 +27,7 @@ def paginator(request, posts, pages_numder):
 
 
 def index(request):
-    """Main page.
+    """Main page with list of posts.
     """
     template = 'posts/index.html'
     title = 'Last changes.'
