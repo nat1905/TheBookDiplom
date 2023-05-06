@@ -1,3 +1,4 @@
+"""Tests for views app posts."""
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -14,18 +15,18 @@ class PostsViewsTests(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username='user')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
+            title='group',
             slug='slug',
-            description='Тестовое описание',
+            description='description',
         )
         cls.group_without_post = Group.objects.create(
-            title='Тестовая группа без поста',
+            title='group without post',
             slug='slug_without_post',
-            description='Тестовое описание группа без поста',
+            description='description group without post',
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='post',
             group=cls.group,
         )
 
@@ -34,7 +35,7 @@ class PostsViewsTests(TestCase):
         self.author_client.force_login(PostsViewsTests.post.author)
 
     def test_views(self):
-        """При обращении к name вызывается соответствующий HTML-шаблон."""
+        """When use attr name correcponding tempalte HTML is used."""
         templates_url_names = {
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse(
@@ -60,8 +61,8 @@ class PostsViewsTests(TestCase):
                     self.assertTemplateUsed(response, template)
 
     def test_index_gr_list_profile_post_det_correct_context(self):
-        """Шаблоны index, group_list, profile, post_detail
-        сформированы с правильным контекстом."""
+        """Templates index, group_list, profile, post_detail
+        have correct context."""
         templates_url_names = {
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse(
@@ -87,7 +88,7 @@ class PostsViewsTests(TestCase):
                 self.assertEqual(response.context['post'].text, self.post.text)
 
     def test_post_appears_index_group_list_profile(self):
-        """Пост не появляется у другой группы"""
+        """Post of one group didn't appear in another one. """
         response = (self.author_client.get(reverse(
             'posts:group_list', kwargs={'slug': 'slug_without_post'}
         )))
@@ -95,21 +96,21 @@ class PostsViewsTests(TestCase):
 
 
 class PaginatorViewsTest(TestCase):
-    """Тестирование паджинатора для index, profile, group_list"""
+    """Paginator testing for index, profile, group_list"""
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='username')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
+            title='group',
             slug='slug',
-            description='Тестовое описание',
+            description='description',
         )
         cls.postlist = []
 
         for i in range(PAGES_NUMBER + 1):
             cls.postlist.append(Post.objects.create(
-                text=f'ТестовыйПост{i}',
+                text=f'Test_post{i}',
                 group=cls.group,
                 author=cls.user))
 
@@ -118,8 +119,8 @@ class PaginatorViewsTest(TestCase):
         self.author_client.force_login(self.user)
 
     def test_first_page_contains_ten_records(self):
-        """Проверка: количество постов на первой странице
-        равно PAGES_NUMBER."""
+        """The number of posts at first page
+        is equal PAGES_NUMBER."""
         templates_url_names = {
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse(
@@ -136,7 +137,7 @@ class PaginatorViewsTest(TestCase):
                     response.context['page_obj']), PAGES_NUMBER)
 
     def test_second_page_contains_three_records(self):
-        """Проверка: на второй странице должно быть 1 пост."""
+        """Assert: at second page must be one post."""
         templates_url_names = {
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse(

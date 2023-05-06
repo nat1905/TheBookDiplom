@@ -1,3 +1,4 @@
+"""Tests for models app posts."""
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
@@ -13,11 +14,11 @@ class PostModelTest(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username='auth')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
-            slug='Тестовый слаг',
-            description='Тестовое описание',
+            title='test group',
+            slug='slug',
+            description='description',
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='post',
         )

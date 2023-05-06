@@ -1,4 +1,4 @@
-
+"""Tests for forms app posts."""
 from django import forms
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
@@ -18,13 +18,13 @@ class FormTests(TestCase):
         cls.user_not_author = User.objects.create_user(username='HasNoName')
         cls.guest_user = User.objects.create_user(username='guest')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
+            title='Test group',
             slug='slug',
-            description='Тестовое описание',
+            description='Test description',
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='Test post',
             group=cls.group,
         )
         cls.form = PostForm
@@ -36,7 +36,7 @@ class FormTests(TestCase):
         self.authorized_client.force_login(self.user_not_author)
 
     def test_create_post(self):
-        """Валидная форма создает запись в Post."""
+        """Valid form creates Post."""
         posts_count = Post.objects.count()
         form_data = {
             'author': self.user,
@@ -59,7 +59,7 @@ class FormTests(TestCase):
         )
 
     def test_edit_post(self):
-        """Валидная форма меняет запись в Post."""
+        """Valid form change Post."""
         posts_count = Post.objects.count()
         response = self.author_client.get(
             reverse(
@@ -90,7 +90,7 @@ class FormTests(TestCase):
         )
 
     def test_edit_post_not_author(self):
-        """Не автор не может менять запись в Post."""
+        """Not author can't change Post."""
         posts_count = Post.objects.count()
         response = self.authorized_client.get(
             reverse(
@@ -121,11 +121,11 @@ class FormTests(TestCase):
         )
 
     def test_create_post_guest_client(self):
-        """Неавтроизованный пользователь не может создать запись в Post."""
+        """Not auth user can't create Post."""
         posts_count = Post.objects.count()
         form_data = {
             'author': self.guest_user,
-            'text': 'Тестовый текст_guest_client',
+            'text': 'Test_text_guest_client',
         }
         response = self.client.post(
             reverse('posts:post_create'),
@@ -139,8 +139,8 @@ class FormTests(TestCase):
         )
 
     def test_create_edit_post_page_show_correct_context(self):
-        """Шаблоны post_create, post_edit сформированы
-        с правильным контекстом."""
+        """Templates post_create, post_edit have
+        valid context."""
         templates_url_names = {
             'post_create': reverse('posts:post_create'),
             'post_edit': reverse(

@@ -1,3 +1,4 @@
+"""Tests for urls app posts."""
 from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
@@ -15,13 +16,13 @@ class PostsURLTests(TestCase):
         cls.user = User.objects.create_user(username='user')
         cls.user_not_author = User.objects.create_user(username='HasNoName')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
+            title='group',
             slug='slug',
-            description='Тестовое описание',
+            description='description',
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='post',
             group=cls.group,
         )
 
@@ -32,7 +33,7 @@ class PostsURLTests(TestCase):
         self.author_client.force_login(PostsURLTests.post.author)
 
     def test_templates(self):
-        """Доступ к шаблону в зависимости от пользователя."""
+        """Access to template depends on user auth."""
         templates_url_names = [
             ['/', self.client, 'posts/index.html'],
             ['/', self.authorized_client, 'posts/index.html'],
@@ -61,8 +62,7 @@ class PostsURLTests(TestCase):
                 self.assertTemplateUsed(response, i[2])
 
     def test_status_code(self):
-        """Тестирование статус кодов доступа к странице в
-        зависимости от пользователя."""
+        """Status codes depends on user auth."""
         templates_url_names = [
             ['/', self.client, HTTPStatus.OK],
             ['/', self.authorized_client, HTTPStatus.OK],
@@ -92,7 +92,7 @@ class PostsURLTests(TestCase):
                 self.assertEqual(response.status_code, i[2])
 
     def test_redirects(self):
-        """Тестирование redirects."""
+        """Testing redirects."""
         templates_url_names = [
             ['/create/', self.client, ('/auth/login/?next=/create/')],
             [f'/posts/{self.post.id}/edit/', self.client, (
