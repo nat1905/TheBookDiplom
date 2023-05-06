@@ -41,7 +41,7 @@ def index(request):
 
 
 def books(request):
-    """All books.
+    """Page with list of books.
     """
     template = 'posts/books.html'
     title = 'All books.'
@@ -72,7 +72,7 @@ def group_posts(request, slug):
 
 
 def book_posts(request, book_id):
-    """Book page.
+    """Book page with posts about this book.
     """
     template = 'posts/book_list.html'
     title = f'Posts about {get_object_or_404(Book, pk=book_id)}'
@@ -88,7 +88,7 @@ def book_posts(request, book_id):
 
 
 def profile(request, username):
-    """Author page.
+    """Author page with his posts.
     """
     title = (
         f'Профайл пользователя '
@@ -109,7 +109,7 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-    """Post page."""
+    """Post detail page."""
     post = get_object_or_404(Post, pk=post_id)
     author_equel_user = user_author(request, post.author)
     form = CommentForm()
