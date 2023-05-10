@@ -5,7 +5,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from ..forms import PostForm
-from ..models import Group, Post
+from ..models import Group, Post, Comment
 
 User = get_user_model()
 
@@ -160,3 +160,59 @@ class FormTests(TestCase):
                         form_field = response.context.get(
                             'form').fields.get(value)
                         self.assertIsInstance(form_field, expected)
+
+    def test_create_comment(self):
+        """Valid form create a comment."""
+        post = self.post
+        comment_count = post.comments.count()
+        response = self.authorized_client.get(
+            reverse(
+                'posts:add_comment', kwargs={'post_id': f'{post.id}'}
+            ),
+        )
+        form_comment_data = {
+            'author': self.user_not_author,
+            'text': 'comment',
+        }
+        response = self.authorized_client.post(
+            reverse(
+                'posts:add_comment', kwargs={'post_id': f'{post.id}'}
+            ),
+            data=form_comment_data,
+            follow=True
+        )
+        self.assertRedirects(response, reverse(
+            'posts:post_detail', kwargs={'post_id': f'{post.id}'}
+        ))
+        self.assertEqual(self.post.comments.count(), comment_count + 1)
+        self.assertTrue(
+            Comment.objects.filter(**form_comment_data).exists()
+        )
+
+    def test_create_comment_guest_client(self):
+        """Not authorized user can't create a comment."""
+        post = self.post
+        comment_count = post.comments.count()
+        response = self.client.get(
+            reverse(
+                'posts:add_comment', kwargs={'post_id': f'{post.id}'}
+            ),
+        )
+        form_comment_data = {
+            'author': self.guest_user,
+            'text': 'comment',
+        }
+        response = self.client.post(
+            reverse(
+                'posts:add_comment', kwargs={'post_id': f'{post.id}'}
+            ),
+            data=form_comment_data,
+            follow=True
+        )
+        self.assertRedirects(response, (
+            '/auth/login/?next=/posts/1/comment/'
+        ))
+        self.assertEqual(self.post.comments.count(), comment_count)
+        self.assertFalse(
+            Comment.objects.filter(**form_comment_data).exists()
+        )
