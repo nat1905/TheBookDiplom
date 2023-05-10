@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from ..models import Comment, Group, Post
+from ..models import Book, Comment, Group, Post
 
 User = get_user_model()
 FIRST_15_CHAR = 15
@@ -78,6 +78,33 @@ class GroupModelTest(TestCase):
         verbose = group._meta.get_field('slug').verbose_name
         self.assertEqual(verbose, 'slug')
         verbose = group._meta.get_field('description').verbose_name
+        self.assertEqual(verbose, 'description')
+
+
+class BookModelTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.book = Book.objects.create(
+            title='test book',
+            author_book='test author',
+            description='test description',
+        )
+
+    def test_models_have_correct_object_names(self):
+        """Check that models __str__ works corretly."""
+        book = BookModelTest.book
+        expected_object_name = book.title
+        self.assertEqual(expected_object_name, str(book))
+
+    def test_verbose(self):
+        """Check verbose_name."""
+        book = BookModelTest.book
+        verbose = book._meta.get_field('title').verbose_name
+        self.assertEqual(verbose, 'title')
+        verbose = book._meta.get_field('author_book').verbose_name
+        self.assertEqual(verbose, 'author book')
+        verbose = book._meta.get_field('description').verbose_name
         self.assertEqual(verbose, 'description')
 
 
