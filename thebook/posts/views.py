@@ -41,7 +41,7 @@ def index(request):
 
 
 def books(request):
-    """Page with list of books.
+    """Page with list of all sbooks.
     """
     template = 'posts/books.html'
     title = 'All books.'
