@@ -6,18 +6,38 @@
 {% block content %}
 {{ content }}
 {% for book in page_obj %}
-<p>{{ book.title }}</p>
-<p>{{ book.author_book }}</p>
+<div class="row">
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        {{ book.title }}
+      </li>
+      <li class="list-group-item">
+        {{ book.author_book }}
+      </li>
+      <li class="list-group-item">
+        <a href="{% url 'posts:book_list' book.pk %}">
+          Book's details
+        </a>
+      </li>
+    </ul>
+  </aside>
 
-{% thumbnail book.image_book "140x140" crop="center" as im %}
-          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
+  <article class="col-12 col-md-9">
+
+    {% thumbnail book.image_book "140x140" crop="center" as im %}
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}  
   
-  <p>
-    <a href="{% url 'posts:book_list' book.pk %}">
-      Book's details
-    </a>
-  </p>
+    
+
+    <p>
+      {{ book.description }}
+    <p>
+ 
+
+</article>      
+</div>
 {% if not forloop.last %}<hr>{% endif %}
 {% endfor %}
 {% include 'includes/paginator.html' %}

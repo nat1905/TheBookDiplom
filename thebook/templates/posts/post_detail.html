@@ -40,12 +40,9 @@
       {% endthumbnail %}
 
       {% if author_equel_user %} 
-            <article >
-                
-                  <a href="{% url 'posts:post_edit' post.id %}">
-                    <button class="btn btn-primary">
-                      Correct the post
-                    </button>
+            <article>                
+                  <a href="{% url 'posts:post_edit' post.id %}">                    
+                      Correct the post                    
                   </a>
             </article>
        {% endif %} 
@@ -53,8 +50,7 @@
       <p>
         {{ post.text }}
       <p>
-    </article>    
-      
+    </article>      
   </div> 
 {% include 'includes/comment.html' %}
 {% include 'includes/paginator.html' %}

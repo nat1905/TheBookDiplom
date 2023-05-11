@@ -91,7 +91,7 @@ def profile(request, username):
     """Author page with his posts.
     """
     title = (
-        f'Профайл пользователя '
+        f'Author '
         f'{get_object_or_404(User, username=username)}'
     )
     author = get_object_or_404(User, username=username)

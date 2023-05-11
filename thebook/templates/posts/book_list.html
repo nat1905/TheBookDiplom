@@ -4,26 +4,37 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 {{ content }}
+<div class="row">
+    <aside class="col-12 col-md-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+        Title: {{ book.title }}
+        </li> 
+        <li class="list-group-item">
+        Author: {{ book.author_book }}
+        </li> 
+      </ul>
+    </aside>
 
-<h3>Title:{{ book.title }}.</h3>
-<h3>Author:{{ book.author_book }}.</h3>
+    <article class="col-12 col-md-9">
 
-{% thumbnail book.image_book "140x140" crop="center" as im %}
-          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
+        {% thumbnail book.image_book "140x140" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
 
-<h3>Book description:</h3>
-    <p>
-        <h5>
-        {{ book.description }}
-        </h5>
-    </p>
-        
-<a href="{% url 'posts:book_edit' book.id %}">
-    <button class="btn btn-primary">
-    Correct the book
-    </button>
-</a>
+        <article>        
+            <a href="{% url 'posts:book_edit' book.id %}">    
+                Correct the book    
+            </a>
+        </article> 
+
+
+        <p>        
+            {{ book.description }}        
+        </p>
+
+    </article> 
+</div>
 
 <hr>
         

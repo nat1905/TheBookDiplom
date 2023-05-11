@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="mb-5">
-  <h3>All posts of user: {{ author.username }}</h3>     
+  <h3>Posts of: {{ author.username }}</h3>     
 </div>
 
 {% for post in page_obj %}
@@ -21,17 +21,15 @@
   {% if post.group %}   
   <li>  
     <a href="{% url 'posts:group_list' post.group.slug %}">
-      #{{ post.group.title }}
+      {{ post.group.title }}
     </a>
   </li>      
   {% endif %}
 
 {% if author_equel_user %} 
   <li>        
-    <a href="{% url 'posts:post_edit' post.id %}">
-      <button class="btn btn-primary">
-        Correct the post
-      </button>
+    <a href="{% url 'posts:post_edit' post.id %}">      
+        Correct the post      
     </a>  
   </li>    
 {% endif %}
