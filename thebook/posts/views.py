@@ -54,7 +54,7 @@ def books(request):
     return render(request, template, context)
 
 
-# Guests page
+# Group page
 def group_posts(request, slug):
     """Group page.
     """
